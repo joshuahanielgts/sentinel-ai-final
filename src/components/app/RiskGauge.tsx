@@ -102,10 +102,9 @@ export function RiskGauge({ score, size = 200 }: RiskGaugeProps) {
           x={center}
           y={center + 15}
           textAnchor="middle"
-          className="font-mono"
+          className="font-mono uppercase"
           fill={color}
           fontSize={size / 14}
-          textTransform="uppercase"
         >
           {level.toUpperCase()}
         </text>
