@@ -80,6 +80,133 @@ function HeroSection() {
             ))}
           </motion.div>
         </motion.div>
+
+        {/* Animated Product Demo */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-20 max-w-4xl mx-auto relative"
+        >
+          <div className="rounded-xl overflow-hidden border border-border/50 glass p-1 shadow-2xl shadow-primary/10">
+            <div className="rounded-lg bg-background overflow-hidden">
+              {/* Window chrome */}
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-card border-b border-border">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-destructive/60" />
+                  <div className="w-3 h-3 rounded-full bg-neon-yellow/60" style={{ backgroundColor: 'hsl(var(--neon-yellow))' }} />
+                  <div className="w-3 h-3 rounded-full bg-neon-green/60" style={{ backgroundColor: 'hsl(var(--neon-green))' }} />
+                </div>
+                <div className="flex-1 mx-4">
+                  <div className="bg-secondary rounded-md px-3 py-1 text-xs font-mono text-muted-foreground text-center max-w-xs mx-auto">
+                    sentinel-ai.com/dashboard
+                  </div>
+                </div>
+              </div>
+
+              {/* Animated dashboard content */}
+              <div className="p-4 md:p-6 space-y-4">
+                {/* Top stats row */}
+                <div className="grid grid-cols-4 gap-3">
+                  {[
+                    { label: 'Contracts', value: '847', icon: FileText },
+                    { label: 'High Risk', value: '23', risk: true },
+                    { label: 'Avg Score', value: '34' },
+                    { label: 'Analyzed', value: '12', icon: Zap },
+                  ].map((stat, i) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 1.0 + i * 0.15, duration: 0.4 }}
+                      className="bg-card rounded-lg p-3 border border-border"
+                    >
+                      <p className="text-[10px] text-muted-foreground font-mono truncate">{stat.label}</p>
+                      <p className={`text-lg md:text-xl font-mono font-bold ${stat.risk ? 'text-destructive' : 'text-foreground'}`}>{stat.value}</p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Analysis in progress */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.8, duration: 0.5 }}
+                  className="bg-card rounded-lg border border-border p-4"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-primary pulse-dot" />
+                      <span className="text-xs font-mono text-primary">ANALYZING CONTRACT</span>
+                    </div>
+                    <span className="text-xs font-mono text-muted-foreground">vendor-agreement-v3.pdf</span>
+                  </div>
+                  <div className="w-full bg-secondary rounded-full h-1.5 overflow-hidden">
+                    <motion.div
+                      className="h-full bg-primary rounded-full"
+                      initial={{ width: '0%' }}
+                      animate={{ width: '78%' }}
+                      transition={{ delay: 2.0, duration: 2.5, ease: 'easeOut' }}
+                    />
+                  </div>
+                  <div className="mt-3 grid grid-cols-3 gap-2">
+                    {['Clause Detection', 'Risk Scoring', 'Obligation Extraction'].map((step, i) => (
+                      <motion.div
+                        key={step}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 2.2 + i * 0.4 }}
+                        className="flex items-center gap-1.5"
+                      >
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 2.4 + i * 0.4, type: 'spring', stiffness: 300 }}
+                        >
+                          <Check className={`w-3 h-3 ${i < 2 ? 'text-primary' : 'text-muted-foreground'}`} />
+                        </motion.div>
+                        <span className="text-[10px] font-mono text-muted-foreground truncate">{step}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Flagged clauses */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 3.5, duration: 0.5 }}
+                  className="bg-card rounded-lg border border-border p-4"
+                >
+                  <p className="text-xs font-mono text-muted-foreground mb-3">FLAGGED CLAUSES</p>
+                  <div className="space-y-2">
+                    {[
+                      { clause: 'Auto-renewal with 90-day notice', risk: 'HIGH', color: 'bg-destructive/10 text-destructive border-destructive/20' },
+                      { clause: 'Unlimited liability exposure', risk: 'CRITICAL', color: 'bg-destructive/10 text-destructive border-destructive/20' },
+                      { clause: 'Non-compete radius: 200 miles', risk: 'MEDIUM', color: 'bg-neon-yellow/10 border-neon-yellow/20' },
+                    ].map((item, i) => (
+                      <motion.div
+                        key={item.clause}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 3.7 + i * 0.25 }}
+                        className="flex items-center justify-between text-xs bg-secondary/50 rounded-md px-3 py-2 border border-border"
+                      >
+                        <span className="font-mono text-foreground truncate mr-2">{item.clause}</span>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${item.color}`} style={item.risk === 'MEDIUM' ? { color: 'hsl(var(--neon-yellow))' } : {}}>
+                          {item.risk}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+
+          {/* Glow beneath demo */}
+          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-primary/20 rounded-full blur-[60px]" />
+        </motion.div>
       </div>
     </section>
   );

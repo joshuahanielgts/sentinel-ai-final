@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Mail, MapPin, Clock, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -37,11 +38,19 @@ export default function ContactPage() {
 
   const onSubmit = async (data: ContactForm) => {
     setLoading(true);
-    // Simulate submission — will be connected to an edge function later
-    await new Promise((r) => setTimeout(r, 1500));
-    setLoading(false);
-    toast.success('Message sent! We\'ll get back to you within 24 hours.');
-    reset();
+    try {
+      const { error } = await supabase.functions.invoke('contact-form', {
+        body: data,
+      });
+      if (error) throw error;
+      toast.success("Message sent! We'll get back to you within 24 hours.");
+      reset();
+    } catch (err) {
+      console.error('Contact form error:', err);
+      toast.error('Failed to send message. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
