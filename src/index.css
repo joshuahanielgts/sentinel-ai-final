@@ -280,3 +280,12 @@ html {
 .risk-border-medium { border-left-color: hsl(var(--risk-medium)); }
 .risk-border-high { border-left-color: hsl(var(--risk-high)); }
 .risk-border-critical { border-left-color: hsl(var(--risk-critical)); }
+
+/* Interactive menu bounce */
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-0.3em); }
+  40% { transform: translateY(0); }
+  60% { transform: translateY(-0.1em); }
+  80% { transform: translateY(0); }
+}

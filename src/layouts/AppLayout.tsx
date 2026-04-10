@@ -5,12 +5,13 @@ import { ThemeToggle } from '@/components/app/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { useWorkspaces } from '@/hooks/useWorkspaces';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { CommandPalette } from '@/components/app/CommandPalette';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { InteractiveMenu, type InteractiveMenuItem } from '@/components/ui/modern-mobile-menu';
 
 const navItems = [
   { label: 'Dashboard', path: 'dashboard', icon: LayoutDashboard },
