@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Shield } from 'lucide-react';
+import { ThemeToggle } from '@/components/app/ThemeToggle';
 
 export function AuthLayout() {
   const { user, loading } = useAuth();
@@ -18,7 +19,10 @@ export function AuthLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-background grid-bg scanlines flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-background grid-bg scanlines flex flex-col items-center justify-center p-4 relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="mb-8 flex items-center gap-3">
         <Shield className="w-10 h-10 text-primary" />
         <span className="font-mono text-2xl font-bold text-foreground tracking-wider">SENTINEL AI</span>
