@@ -28,12 +28,14 @@ export function MarketingNavbar() {
     setMobileOpen(false);
   }, [location]);
 
-  const handleAnchorClick = (href: string) => {
+  const handleAnchorClick = (e: React.MouseEvent, href: string) => {
     if (href.startsWith('/#')) {
       const id = href.slice(2);
       if (location.pathname === '/') {
+        e.preventDefault();
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
       }
+      // If not on /, the Link navigates to / and then the hash triggers scroll via CSS
     }
   };
 
@@ -63,7 +65,7 @@ export function MarketingNavbar() {
               <Link
                 key={link.href}
                 to={link.href}
-                onClick={() => handleAnchorClick(link.href)}
+                onClick={(e) => handleAnchorClick(e, link.href)}
                 className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-secondary/50"
               >
                 {link.label}
@@ -113,7 +115,7 @@ export function MarketingNavbar() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  onClick={() => handleAnchorClick(link.href)}
+                  onClick={(e) => handleAnchorClick(e, link.href)}
                   className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-md transition-colors"
                 >
                   {link.label}
