@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -10,6 +10,7 @@ import { RouteGuard } from "@/components/app/RouteGuard";
 import { ErrorBoundary } from "@/components/app/ErrorBoundary";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { AppLayout } from "@/layouts/AppLayout";
+import { AnimatePresence } from 'framer-motion';
 
 const LoginPage = lazy(() => import("@/pages/LoginPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
@@ -36,6 +37,45 @@ function PageLoader() {
   );
 }
 
+function AnimatedRoutes() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<PageLoader />} key={location.pathname}>
+        <Routes location={location}>
+          {/* Auth routes */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+          </Route>
+
+          {/* Protected routes */}
+          <Route path="/workspaces" element={
+            <RouteGuard>
+              <ErrorBoundary><WorkspacesPage /></ErrorBoundary>
+            </RouteGuard>
+          } />
+
+          <Route path="/w/:workspaceId" element={
+            <RouteGuard>
+              <ErrorBoundary><AppLayout /></ErrorBoundary>
+            </RouteGuard>
+          }>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<ErrorBoundary><DashboardPage /></ErrorBoundary>} />
+            <Route path="contracts" element={<ErrorBoundary><ContractsPage /></ErrorBoundary>} />
+            <Route path="contracts/:contractId" element={<ErrorBoundary><ContractDetailPage /></ErrorBoundary>} />
+            <Route path="settings" element={<ErrorBoundary><SettingsPage /></ErrorBoundary>} />
+          </Route>
+
+          {/* Catch-all */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Suspense>
+    </AnimatePresence>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
@@ -44,37 +84,7 @@ const App = () => (
           <TooltipProvider>
             <Sonner />
             <BrowserRouter>
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  {/* Auth routes */}
-                  <Route element={<AuthLayout />}>
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/signup" element={<SignupPage />} />
-                  </Route>
-
-                  {/* Protected routes */}
-                  <Route path="/workspaces" element={
-                    <RouteGuard>
-                      <ErrorBoundary><WorkspacesPage /></ErrorBoundary>
-                    </RouteGuard>
-                  } />
-
-                  <Route path="/w/:workspaceId" element={
-                    <RouteGuard>
-                      <ErrorBoundary><AppLayout /></ErrorBoundary>
-                    </RouteGuard>
-                  }>
-                    <Route index element={<Navigate to="dashboard" replace />} />
-                    <Route path="dashboard" element={<ErrorBoundary><DashboardPage /></ErrorBoundary>} />
-                    <Route path="contracts" element={<ErrorBoundary><ContractsPage /></ErrorBoundary>} />
-                    <Route path="contracts/:contractId" element={<ErrorBoundary><ContractDetailPage /></ErrorBoundary>} />
-                    <Route path="settings" element={<ErrorBoundary><SettingsPage /></ErrorBoundary>} />
-                  </Route>
-
-                  {/* Catch-all */}
-                  <Route path="*" element={<Navigate to="/login" replace />} />
-                </Routes>
-              </Suspense>
+              <AnimatedRoutes />
             </BrowserRouter>
           </TooltipProvider>
         </WorkspaceProvider>

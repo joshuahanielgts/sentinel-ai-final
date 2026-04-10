@@ -2,6 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Shield } from 'lucide-react';
 import { ThemeToggle } from '@/components/app/ThemeToggle';
+import { PageTransition } from '@/components/app/PageTransition';
 
 export function AuthLayout() {
   const { user, loading } = useAuth();
@@ -27,7 +28,7 @@ export function AuthLayout() {
         <Shield className="w-10 h-10 text-primary" />
         <span className="font-mono text-2xl font-bold text-foreground tracking-wider">SENTINEL AI</span>
       </div>
-      <Outlet />
+      <PageTransition><Outlet /></PageTransition>
     </div>
   );
 }

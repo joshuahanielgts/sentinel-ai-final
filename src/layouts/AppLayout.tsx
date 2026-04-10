@@ -1,4 +1,5 @@
 import { Outlet, useNavigate, useParams, Link, useLocation } from 'react-router-dom';
+import { PageTransition } from '@/components/app/PageTransition';
 import { Shield, LayoutDashboard, FileText, Settings, LogOut, ChevronDown, Menu } from 'lucide-react';
 import { ThemeToggle } from '@/components/app/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
@@ -172,7 +173,7 @@ export function AppLayout() {
             <span className="font-mono text-sm font-bold text-foreground tracking-wider">SENTINEL AI</span>
           </header>
         )}
-        <Outlet />
+        <PageTransition><Outlet /></PageTransition>
       </main>
     </div>
   );
