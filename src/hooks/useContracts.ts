@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 import { contractsApi } from '@/api/contracts';
 import type { Contract } from '@/types/api';
 
@@ -7,10 +8,18 @@ export function useContracts(workspaceId: string | undefined) {
     queryKey: ['contracts', workspaceId],
     queryFn: () => contractsApi.list(workspaceId!),
     enabled: !!workspaceId,
+    refetchInterval: (query) => {
+      const data = query.state.data as Contract[] | undefined;
+      if (data?.some((c) => c.status === 'analyzing' || c.status === 'pending')) return 5000;
+      return false;
+    },
   });
 }
 
 export function useContract(contractId: string | undefined) {
+  const queryClient = useQueryClient();
+  const prevStatus = useRef<string | undefined>();
+
   const query = useQuery({
     queryKey: ['contract', contractId],
     queryFn: () => contractsApi.get(contractId!),
@@ -21,6 +30,18 @@ export function useContract(contractId: string | undefined) {
       return false;
     },
   });
+
+  // When status transitions to 'complete', invalidate related queries
+  useEffect(() => {
+    const currentStatus = query.data?.status;
+    if (prevStatus.current === 'analyzing' && currentStatus === 'complete') {
+      queryClient.invalidateQueries({ queryKey: ['contract-clauses', contractId] });
+      queryClient.invalidateQueries({ queryKey: ['contracts'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+    }
+    prevStatus.current = currentStatus;
+  }, [query.data?.status, contractId, queryClient]);
+
   return query;
 }
 
