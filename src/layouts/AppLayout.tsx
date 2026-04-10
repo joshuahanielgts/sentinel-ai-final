@@ -1,5 +1,6 @@
 import { Outlet, useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import { Shield, LayoutDashboard, FileText, Settings, LogOut, ChevronDown, Menu } from 'lucide-react';
+import { ThemeToggle } from '@/components/app/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { useWorkspaces } from '@/hooks/useWorkspaces';
@@ -90,6 +91,7 @@ function SidebarContent({ workspaceId, workspace, workspaces, location, onNaviga
           <span className="text-xs font-mono text-muted-foreground truncate flex-1">
             {user?.email}
           </span>
+          <ThemeToggle />
           <button onClick={onSignOut} className="text-muted-foreground hover:text-destructive transition-colors">
             <LogOut className="w-4 h-4" />
           </button>
