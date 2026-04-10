@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useContracts } from '@/hooks/useContracts';
 import { ContractCard } from '@/components/app/ContractCard';
 import { UploadDialog } from '@/components/app/UploadDialog';
+import { ContractsSkeleton } from '@/components/app/ContractsSkeleton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Upload } from 'lucide-react';
@@ -92,9 +93,7 @@ export default function ContractsPage() {
 
       {/* Contract list */}
       {isLoading ? (
-        <div className="space-y-3">
-          {[1, 2, 3].map((i) => <div key={i} className="skeleton-cyber h-20 rounded-lg" />)}
-        </div>
+        <ContractsSkeleton />
       ) : filtered.length === 0 ? (
         <div className="glass rounded-lg p-12 text-center">
           <p className="font-mono text-muted-foreground">NO CONTRACTS DETECTED IN THIS WORKSPACE</p>
