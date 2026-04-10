@@ -59,11 +59,14 @@ function HeroSection() {
                 <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </Link>
-            <Link to="/#how-it-works">
-              <Button variant="outline" size="lg" className="font-mono text-sm px-8 h-12">
-                SEE HOW IT WORKS
-              </Button>
-            </Link>
+            <Button
+              variant="outline"
+              size="lg"
+              className="font-mono text-sm px-8 h-12"
+              onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              SEE HOW IT WORKS
+            </Button>
           </motion.div>
 
           {/* Stats */}
