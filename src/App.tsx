@@ -13,6 +13,7 @@ import { MarketingLayout } from "@/layouts/MarketingLayout";
 import { AppLayout } from "@/layouts/AppLayout";
 import { AnimatePresence } from 'framer-motion';
 
+const IntroPage = lazy(() => import("@/pages/IntroPage"));
 const LandingPage = lazy(() => import("@/pages/LandingPage"));
 const PricingPage = lazy(() => import("@/pages/PricingPage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
