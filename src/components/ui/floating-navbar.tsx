@@ -24,6 +24,7 @@ interface FloatingNavBarProps {
 }
 
 export function FloatingNavBar({ className }: FloatingNavBarProps) {
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname);
 
