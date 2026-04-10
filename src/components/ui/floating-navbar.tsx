@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Home, DollarSign, Info, Mail, LucideIcon } from "lucide-react";
+import { Home, DollarSign, Info, Mail, Moon, Sun, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/contexts/ThemeContext";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -23,6 +24,7 @@ interface FloatingNavBarProps {
 }
 
 export function FloatingNavBar({ className }: FloatingNavBarProps) {
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname);
 
@@ -82,6 +84,14 @@ export function FloatingNavBar({ className }: FloatingNavBarProps) {
             </Link>
           );
         })}
+
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
+          aria-label="Toggle theme"
+        >
+          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
 
         <Link to="/signup">
           <Button size="sm" className="rounded-full ml-1 px-4 text-xs font-semibold btn-glow">
