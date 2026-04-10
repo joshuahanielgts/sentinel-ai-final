@@ -11,7 +11,7 @@ const emailSchema = z.string().trim().email().max(255);
 
 const footerLinks = {
   Product: [
-    { label: 'Features', href: '/#features' },
+    { label: 'Features', href: '/home#features' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Security', href: '/#features' },
     { label: 'Integrations', href: '/#features' },

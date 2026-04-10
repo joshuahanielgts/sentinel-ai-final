@@ -11,7 +11,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Home", url: "/", icon: Home },
+  { name: "Home", url: "/home", icon: Home },
   { name: "Pricing", url: "/pricing", icon: DollarSign },
   { name: "About", url: "/about", icon: Info },
   { name: "Contact", url: "/contact", icon: Mail },
