@@ -4,7 +4,7 @@ import type { Contract, ContractClause, UploadContractResponse } from '@/types/a
 
 export const contractsApi = {
   list(workspaceId: string) {
-    return apiClient.get<Contract[]>(`/workspaces/${workspaceId}/contracts`);
+    return apiClient.get<Contract[]>(`/contracts?workspace_id=${workspaceId}`);
   },
 
   get(contractId: string) {
@@ -15,22 +15,24 @@ export const contractsApi = {
     return apiClient.get<ContractClause[]>(`/contracts/${contractId}/clauses`);
   },
 
-  async upload(workspaceId: string, file: File, name: string): Promise<Contract> {
-    // Step 1: Get upload URL
-    const { contract_id, upload_url, upload_path, token } = await apiClient.post<UploadContractResponse>(
-      `/workspaces/${workspaceId}/contracts/upload`,
-      { name, file_name: file.name, file_size: file.size, mime_type: file.type }
-    );
+  async upload(workspaceId: string, file: File, name: string): Promise<{ contract_id: string; upload_path: string; token: string }> {
+    const result = await apiClient.post<UploadContractResponse>('/contracts/upload', {
+      name,
+      file_name: file.name,
+      file_size: file.size,
+      mime_type: file.type,
+      workspace_id: workspaceId,
+    });
 
-    // Step 2: Upload file to signed URL
     const { error } = await supabase.storage
       .from('contracts')
-      .uploadToSignedUrl(upload_path, token, file);
+      .uploadToSignedUrl(result.upload_path, result.token, file);
 
-    if (error) throw new Error(`Upload failed: ${error.message}`);
+    if (error) throw new Error(`Storage upload failed: ${error.message}`);
 
-    // Step 3: Confirm upload
-    return apiClient.patch<Contract>(`/contracts/${contract_id}/confirm`);
+    await apiClient.patch<Contract>(`/contracts/${result.contract_id}`, { status: 'uploaded' });
+
+    return result;
   },
 
   analyze(contractId: string) {

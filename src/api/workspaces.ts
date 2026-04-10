@@ -6,6 +6,10 @@ export const workspacesApi = {
     return apiClient.get<Workspace[]>('/workspaces');
   },
 
+  get(id: string) {
+    return apiClient.get<Workspace>(`/workspaces/${id}`);
+  },
+
   create(data: { name: string; slug: string }) {
     return apiClient.post<Workspace>('/workspaces', data);
   },
@@ -18,7 +22,7 @@ export const workspacesApi = {
     return apiClient.post<WorkspaceMember>(`/workspaces/${workspaceId}/members`, data);
   },
 
-  removeMember(workspaceId: string, memberId: string) {
-    return apiClient.delete(`/workspaces/${workspaceId}/members/${memberId}`);
+  removeMember(workspaceId: string, userId: string) {
+    return apiClient.delete(`/workspaces/${workspaceId}/members`, { user_id: userId });
   },
 };

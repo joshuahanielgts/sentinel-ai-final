@@ -3,15 +3,15 @@ import type { ChatSession, ChatMessage } from '@/types/api';
 
 export const chatApi = {
   getSessions(contractId: string) {
-    return apiClient.get<ChatSession[]>(`/contracts/${contractId}/chat/sessions`);
+    return apiClient.get<ChatSession[]>(`/chat/sessions?contract_id=${contractId}`);
   },
 
   createSession(contractId: string) {
-    return apiClient.post<ChatSession>(`/contracts/${contractId}/chat/sessions`);
+    return apiClient.post<ChatSession>('/chat/sessions', { contract_id: contractId });
   },
 
   getMessages(sessionId: string) {
-    return apiClient.get<ChatMessage[]>(`/chat/sessions/${sessionId}/messages`);
+    return Promise.resolve([] as ChatMessage[]);
   },
 
   async sendMessage(
@@ -20,7 +20,8 @@ export const chatApi = {
     mode: 'normal' | 'redteam',
     onChunk: (text: string) => void
   ): Promise<string> {
-    const response = await apiClient.stream(`/chat/sessions/${sessionId}/messages`, {
+    const response = await apiClient.stream('/chat/message', {
+      session_id: sessionId,
       content,
       mode,
     });
@@ -34,8 +35,7 @@ export const chatApi = {
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      accumulated += chunk;
+      accumulated += decoder.decode(value, { stream: true });
       onChunk(accumulated);
     }
 
