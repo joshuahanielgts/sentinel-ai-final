@@ -5,6 +5,7 @@ import { RiskGauge } from '@/components/app/RiskGauge';
 import { ClauseCard } from '@/components/app/ClauseCard';
 import { ChatPanel } from '@/components/app/ChatPanel';
 import { AnalysisProgress } from '@/components/app/AnalysisProgress';
+import { ContractDetailSkeleton } from '@/components/app/ContractDetailSkeleton';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Play, MessageSquare, Loader2, Shield, CheckCircle, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
@@ -50,12 +51,7 @@ export default function ContractDetailPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className="p-6 space-y-6">
-        <div className="skeleton-cyber h-8 w-48 rounded" />
-        <div className="skeleton-cyber h-64 rounded-lg" />
-      </div>
-    );
+    return <ContractDetailSkeleton />;
   }
 
   if (!contract) {
