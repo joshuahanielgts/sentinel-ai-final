@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Home, DollarSign, Info, Mail, LogIn, LucideIcon } from "lucide-react";
+import { Home, DollarSign, Info, Mail, LucideIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -15,7 +16,6 @@ const navItems: NavItem[] = [
   { name: "Pricing", url: "/pricing", icon: DollarSign },
   { name: "About", url: "/about", icon: Info },
   { name: "Contact", url: "/contact", icon: Mail },
-  { name: "Login", url: "/login", icon: LogIn },
 ];
 
 interface FloatingNavBarProps {
@@ -82,6 +82,12 @@ export function FloatingNavBar({ className }: FloatingNavBarProps) {
             </Link>
           );
         })}
+
+        <Link to="/signup">
+          <Button size="sm" className="rounded-full ml-1 px-4 text-xs font-semibold btn-glow">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </div>
   );
