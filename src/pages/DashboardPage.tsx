@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useDashboard } from '@/hooks/useDashboard';
 import { FileText, Clock, AlertTriangle } from 'lucide-react';
 import { ThreatFeed } from '@/components/app/ThreatFeed';
+import { DashboardSkeleton } from '@/components/app/DashboardSkeleton';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useEffect } from 'react';
 import type { RiskLevel } from '@/types/api';
@@ -31,14 +32,7 @@ export default function DashboardPage() {
   const highCriticalCount = stats ? (stats.contracts_by_risk.high || 0) + (stats.contracts_by_risk.critical || 0) : 0;
 
   if (isLoading) {
-    return (
-      <div className="p-6 space-y-6">
-        <div className="skeleton-cyber h-10 w-64 rounded" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[1, 2, 3].map((i) => <div key={i} className="skeleton-cyber h-32 rounded-lg" />)}
-        </div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (
