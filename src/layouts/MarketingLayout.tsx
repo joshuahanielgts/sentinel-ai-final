@@ -7,7 +7,7 @@ import { Home, DollarSign, Info, Mail, LogIn } from 'lucide-react';
 import { useMemo } from 'react';
 
 const mobileNavItems: (InteractiveMenuItem & { path: string })[] = [
-  { label: 'Home', icon: Home, path: '/' },
+  { label: 'Home', icon: Home, path: '/home' },
   { label: 'Pricing', icon: DollarSign, path: '/pricing' },
   { label: 'About', icon: Info, path: '/about' },
   { label: 'Contact', icon: Mail, path: '/contact' },
