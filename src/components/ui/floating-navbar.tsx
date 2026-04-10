@@ -82,6 +82,12 @@ export function FloatingNavBar({ className }: FloatingNavBarProps) {
             </Link>
           );
         })}
+
+        <Link to="/signup">
+          <Button size="sm" className="rounded-full ml-1 px-4 text-xs font-semibold btn-glow">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </div>
   );
