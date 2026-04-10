@@ -9,9 +9,14 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { RouteGuard } from "@/components/app/RouteGuard";
 import { ErrorBoundary } from "@/components/app/ErrorBoundary";
 import { AuthLayout } from "@/layouts/AuthLayout";
+import { MarketingLayout } from "@/layouts/MarketingLayout";
 import { AppLayout } from "@/layouts/AppLayout";
 import { AnimatePresence } from 'framer-motion';
 
+const LandingPage = lazy(() => import("@/pages/LandingPage"));
+const PricingPage = lazy(() => import("@/pages/PricingPage"));
+const AboutPage = lazy(() => import("@/pages/AboutPage"));
+const ContactPage = lazy(() => import("@/pages/ContactPage"));
 const LoginPage = lazy(() => import("@/pages/LoginPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
 const WorkspacesPage = lazy(() => import("@/pages/WorkspacesPage"));
@@ -43,6 +48,14 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Suspense fallback={<PageLoader />} key={location.pathname}>
         <Routes location={location}>
+          {/* Public marketing routes */}
+          <Route element={<MarketingLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Route>
+
           {/* Auth routes */}
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<LoginPage />} />
@@ -69,7 +82,7 @@ function AnimatedRoutes() {
           </Route>
 
           {/* Catch-all */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </AnimatePresence>
