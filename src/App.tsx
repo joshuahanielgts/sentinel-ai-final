@@ -13,6 +13,7 @@ import { MarketingLayout } from "@/layouts/MarketingLayout";
 import { AppLayout } from "@/layouts/AppLayout";
 import { AnimatePresence } from 'framer-motion';
 
+const IntroPage = lazy(() => import("@/pages/IntroPage"));
 const LandingPage = lazy(() => import("@/pages/LandingPage"));
 const PricingPage = lazy(() => import("@/pages/PricingPage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
@@ -49,8 +50,11 @@ function AnimatedRoutes() {
       <Suspense fallback={<PageLoader />} key={location.pathname}>
         <Routes location={location}>
           {/* Public marketing routes */}
+          {/* Intro splash */}
+          <Route path="/" element={<IntroPage />} />
+
           <Route element={<MarketingLayout />}>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={<LandingPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
