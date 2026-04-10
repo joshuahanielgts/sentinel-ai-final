@@ -85,6 +85,14 @@ export function FloatingNavBar({ className }: FloatingNavBarProps) {
           );
         })}
 
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
+          aria-label="Toggle theme"
+        >
+          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
+
         <Link to="/signup">
           <Button size="sm" className="rounded-full ml-1 px-4 text-xs font-semibold btn-glow">
             Get Started
