@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Home, DollarSign, Info, Mail, LucideIcon } from "lucide-react";
+import { Home, DollarSign, Info, Mail, Moon, Sun, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/contexts/ThemeContext";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
