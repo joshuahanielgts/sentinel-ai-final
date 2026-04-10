@@ -28,12 +28,14 @@ export function MarketingNavbar() {
     setMobileOpen(false);
   }, [location]);
 
-  const handleAnchorClick = (href: string) => {
+  const handleAnchorClick = (e: React.MouseEvent, href: string) => {
     if (href.startsWith('/#')) {
       const id = href.slice(2);
       if (location.pathname === '/') {
+        e.preventDefault();
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
       }
+      // If not on /, the Link navigates to / and then the hash triggers scroll via CSS
     }
   };
 
