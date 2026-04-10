@@ -26,7 +26,8 @@ async function handleResponse<T>(response: Response): Promise<T> {
     }
     throw new Error(body.error || `Request failed: ${response.status}`);
   }
-  return response.json();
+  const json = await response.json();
+  return json.data as T;
 }
 
 export const apiClient = {
