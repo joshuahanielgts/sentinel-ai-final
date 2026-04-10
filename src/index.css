@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root, .dark {
     --background: 215 62% 5%;
     --foreground: 214 32% 91%;
 
@@ -69,6 +69,65 @@
     --neon-red: 0 84% 60%;
     --text-dim: 215 14% 34%;
   }
+
+  .light {
+    --background: 214 32% 95%;
+    --foreground: 215 60% 12%;
+
+    --card: 214 30% 98%;
+    --card-foreground: 215 60% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 60% 12%;
+
+    --primary: 217 91% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 214 25% 90%;
+    --secondary-foreground: 215 60% 12%;
+
+    --muted: 214 25% 92%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 189 80% 35%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 25% 82%;
+    --input: 214 25% 82%;
+    --ring: 217 91% 50%;
+
+    --sidebar-background: 214 30% 96%;
+    --sidebar-foreground: 215 60% 12%;
+    --sidebar-primary: 217 91% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 25% 90%;
+    --sidebar-accent-foreground: 215 60% 12%;
+    --sidebar-border: 214 25% 82%;
+    --sidebar-ring: 217 91% 50%;
+
+    --risk-low: 160 60% 35%;
+    --risk-medium: 38 80% 45%;
+    --risk-high: 25 85% 48%;
+    --risk-critical: 0 72% 51%;
+
+    --glow-blue: 217 91% 50%;
+    --glow-cyan: 189 80% 35%;
+
+    --surface: 214 30% 96%;
+    --surface-elevated: 0 0% 100%;
+    --border-glow: 217 80% 55%;
+
+    --cyan: 189 80% 35%;
+    --cyan-bright: 188 70% 45%;
+    --neon-green: 160 60% 35%;
+    --neon-yellow: 38 80% 45%;
+    --neon-orange: 25 85% 48%;
+    --neon-red: 0 72% 51%;
+    --text-dim: 215 14% 60%;
+  }
 }
 
 @layer base {
@@ -91,6 +150,29 @@
   background-image: linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
                     linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
   background-size: 50px 50px;
+}
+.light .grid-bg {
+  background-image: linear-gradient(rgba(59,130,246,0.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(59,130,246,0.06) 1px, transparent 1px);
+}
+
+/* Light mode glass */
+.light .glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border));
+}
+
+/* Light mode glow adjustments */
+.light .glow-card:hover {
+  border-color: hsl(var(--border-glow));
+  box-shadow: 0 0 20px rgba(59,130,246,0.1);
+}
+.light .btn-glow:hover {
+  box-shadow: 0 0 15px rgba(59,130,246,0.25);
+}
+.light .scanlines::after {
+  display: none;
 }
 
 /* Scanline overlay */

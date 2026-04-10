@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { WorkspaceProvider } from "@/contexts/WorkspaceContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import { RouteGuard } from "@/components/app/RouteGuard";
 import { ErrorBoundary } from "@/components/app/ErrorBoundary";
 import { AuthLayout } from "@/layouts/AuthLayout";
@@ -37,46 +38,48 @@ function PageLoader() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <WorkspaceProvider>
-        <TooltipProvider>
-          <Sonner />
-          <BrowserRouter>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                {/* Auth routes */}
-                <Route element={<AuthLayout />}>
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<SignupPage />} />
-                </Route>
+    <ThemeProvider>
+      <AuthProvider>
+        <WorkspaceProvider>
+          <TooltipProvider>
+            <Sonner />
+            <BrowserRouter>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  {/* Auth routes */}
+                  <Route element={<AuthLayout />}>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SignupPage />} />
+                  </Route>
 
-                {/* Protected routes */}
-                <Route path="/workspaces" element={
-                  <RouteGuard>
-                    <ErrorBoundary><WorkspacesPage /></ErrorBoundary>
-                  </RouteGuard>
-                } />
+                  {/* Protected routes */}
+                  <Route path="/workspaces" element={
+                    <RouteGuard>
+                      <ErrorBoundary><WorkspacesPage /></ErrorBoundary>
+                    </RouteGuard>
+                  } />
 
-                <Route path="/w/:workspaceId" element={
-                  <RouteGuard>
-                    <ErrorBoundary><AppLayout /></ErrorBoundary>
-                  </RouteGuard>
-                }>
-                  <Route index element={<Navigate to="dashboard" replace />} />
-                  <Route path="dashboard" element={<ErrorBoundary><DashboardPage /></ErrorBoundary>} />
-                  <Route path="contracts" element={<ErrorBoundary><ContractsPage /></ErrorBoundary>} />
-                  <Route path="contracts/:contractId" element={<ErrorBoundary><ContractDetailPage /></ErrorBoundary>} />
-                  <Route path="settings" element={<ErrorBoundary><SettingsPage /></ErrorBoundary>} />
-                </Route>
+                  <Route path="/w/:workspaceId" element={
+                    <RouteGuard>
+                      <ErrorBoundary><AppLayout /></ErrorBoundary>
+                    </RouteGuard>
+                  }>
+                    <Route index element={<Navigate to="dashboard" replace />} />
+                    <Route path="dashboard" element={<ErrorBoundary><DashboardPage /></ErrorBoundary>} />
+                    <Route path="contracts" element={<ErrorBoundary><ContractsPage /></ErrorBoundary>} />
+                    <Route path="contracts/:contractId" element={<ErrorBoundary><ContractDetailPage /></ErrorBoundary>} />
+                    <Route path="settings" element={<ErrorBoundary><SettingsPage /></ErrorBoundary>} />
+                  </Route>
 
-                {/* Catch-all */}
-                <Route path="*" element={<Navigate to="/login" replace />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </WorkspaceProvider>
-    </AuthProvider>
+                  {/* Catch-all */}
+                  <Route path="*" element={<Navigate to="/login" replace />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </TooltipProvider>
+        </WorkspaceProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
