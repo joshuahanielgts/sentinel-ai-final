@@ -412,109 +412,12 @@ function DashboardPreviewSection() {
   );
 }
 
-// ─── PRICING ───
-const plans = [
-  {
-    name: 'Starter',
-    price: 'Free',
-    period: '',
-    desc: 'For individuals exploring contract analysis.',
-    features: ['5 contracts/month', 'Basic risk scoring', 'Clause detection', 'Email support', '1 workspace'],
-    cta: 'Get Started Free',
-    highlight: false,
-  },
-  {
-    name: 'Pro',
-    price: '$49',
-    period: '/month',
-    desc: 'For growing teams that need full intelligence.',
-    features: ['Unlimited contracts', 'Advanced AI analysis', 'Contract chat (AI Q&A)', 'Priority support', '5 workspaces', 'Custom risk rules', 'Export reports'],
-    cta: 'Start Pro Trial',
-    highlight: true,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: '',
-    desc: 'For organizations with complex compliance needs.',
-    features: ['Everything in Pro', 'Unlimited workspaces', 'SSO & SAML', 'Dedicated account manager', 'Custom integrations', 'SLA guarantee', 'On-premise option'],
-    cta: 'Contact Sales',
-    highlight: false,
-  },
-];
+// ─── PRICING (uses dedicated component) ───
+import PricingSectionComponent from '@/components/ui/pricing-section-4';
 
 function PricingSection() {
-  return (
-    <section id="pricing" className="py-20 md:py-32 bg-card/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={stagger}
-          className="text-center mb-16"
-        >
-          <motion.p variants={fadeUp} className="text-xs font-mono text-primary tracking-widest mb-3 uppercase">PRICING</motion.p>
-          <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-mono font-bold text-foreground mb-4">
-            Plans for Every Team Size
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-muted-foreground max-w-xl mx-auto">
-            Start free. Scale as your contract analysis needs grow.
-          </motion.p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
-          variants={stagger}
-          className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto"
-        >
-          {plans.map((plan) => (
-            <motion.div
-              key={plan.name}
-              variants={fadeUp}
-              className={`rounded-xl p-6 border ${
-                plan.highlight
-                  ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10 relative'
-                  : 'border-border bg-card'
-              }`}
-            >
-              {plan.highlight && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-primary rounded-full">
-                  <span className="text-xs font-mono font-semibold text-primary-foreground">MOST POPULAR</span>
-                </div>
-              )}
-              <h3 className="font-mono text-lg font-bold text-foreground mb-1">{plan.name}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{plan.desc}</p>
-              <div className="mb-6">
-                <span className="text-4xl font-mono font-bold text-foreground">{plan.price}</span>
-                <span className="text-muted-foreground text-sm">{plan.period}</span>
-              </div>
-              <ul className="space-y-2.5 mb-8">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Link to={plan.name === 'Enterprise' ? '/contact' : '/signup'}>
-                <Button
-                  className={`w-full font-mono text-xs ${plan.highlight ? 'btn-glow' : ''}`}
-                  variant={plan.highlight ? 'default' : 'outline'}
-                >
-                  {plan.cta}
-                </Button>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
+  return <PricingSectionComponent />;
 }
-
 // ─── TESTIMONIALS ───
 const testimonials = [
   {
