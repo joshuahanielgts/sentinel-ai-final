@@ -277,13 +277,23 @@ function FeaturesSection() {
             <motion.div
               key={f.title}
               variants={fadeUp}
-              className="glow-card rounded-lg p-6 bg-card group hover:bg-secondary/30 transition-colors"
+              className="group/glow relative rounded-lg p-6 bg-card transition-colors"
             >
-              <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <f.icon className="w-5 h-5 text-primary" />
+              <GlowingEffect
+                spread={40}
+                glow={false}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+                borderWidth={2}
+              />
+              <div className="relative z-10">
+                <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center mb-4 group-hover/glow:bg-primary/20 transition-colors">
+                  <f.icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-mono text-base font-semibold text-foreground mb-2">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </div>
-              <h3 className="font-mono text-base font-semibold text-foreground mb-2">{f.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
             </motion.div>
           ))}
         </motion.div>
