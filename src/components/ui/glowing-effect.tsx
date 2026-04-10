@@ -32,6 +32,11 @@ const GlowingEffect = memo(
     const lastPosition = useRef({ x: 0, y: 0 });
     const animationFrameRef = useRef(0);
 
+    const gradientValue =
+      variant === "white"
+        ? `repeating-conic-gradient(from calc(var(--start) * 1deg), #fff 0%, #fff 5%, transparent 5%, transparent 40%, #fff 50%)`
+        : `repeating-conic-gradient(from calc(var(--start) * 1deg), hsl(var(--primary)) 0%, hsl(var(--accent)) 5%, transparent 5%, transparent 40%, hsl(var(--primary)) 50%)`;
+
     const handleMove = useCallback(
       (e?: MouseEvent | { x: number; y: number }) => {
         if (!containerRef.current) return;
@@ -136,65 +141,18 @@ const GlowingEffect = memo(
               "--start": "0",
               "--active": "0",
               "--glowingeffect-border-width": `${borderWidth}px`,
-              "--repeating-conic-gradient-times": "5",
-              "--gradient":
-                variant === "white"
-                  ? `repeating-conic-gradient(
-                      from calc(var(--start) * 1deg),
-                      #fff 0%,
-                      #fff 5%,
-                      transparent 5%,
-                      transparent 40%,
-                      #fff 50%
-                    )`
-                  : `repeating-conic-gradient(
-                      from calc(var(--start) * 1deg),
-                      hsl(var(--primary)) 0%,
-                      hsl(var(--accent)) 5%,
-                      transparent 5%,
-                      transparent 40%,
-                      hsl(var(--primary)) 50%
-                    )`,
+              "--gradient": gradientValue,
+              background: "var(--gradient)",
             } as React.CSSProperties
           }
           className={cn(
             "pointer-events-none absolute inset-0 rounded-[inherit] opacity-100 transition-opacity duration-300",
             "after:content-[''] after:pointer-events-none after:absolute after:inset-[var(--glowingeffect-border-width)] after:rounded-[inherit] after:bg-card",
-            glow
-              ? "opacity-100"
-              : "opacity-0 group-hover/glow:opacity-100",
+            glow ? "opacity-100" : "opacity-0 group-hover/glow:opacity-100",
             blur > 0 && "blur-[var(--blur)]",
             className,
             disabled && "!hidden"
           )}
-          style={{
-            ...({
-              "--blur": `${blur}px`,
-              "--spread": spread,
-              "--start": "0",
-              "--active": "0",
-              "--glowingeffect-border-width": `${borderWidth}px`,
-              "--gradient":
-                variant === "white"
-                  ? `repeating-conic-gradient(
-                      from calc(var(--start) * 1deg),
-                      #fff 0%,
-                      #fff 5%,
-                      transparent 5%,
-                      transparent 40%,
-                      #fff 50%
-                    )`
-                  : `repeating-conic-gradient(
-                      from calc(var(--start) * 1deg),
-                      hsl(var(--primary)) 0%,
-                      hsl(var(--accent)) 5%,
-                      transparent 5%,
-                      transparent 40%,
-                      hsl(var(--primary)) 50%
-                    )`,
-              background: "var(--gradient)",
-            } as React.CSSProperties),
-          }}
         />
       </>
     );

@@ -12,6 +12,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { GlowingEffect } from '@/components/ui/glowing-effect';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
