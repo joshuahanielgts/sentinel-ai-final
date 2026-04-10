@@ -16,7 +16,6 @@ const navItems: NavItem[] = [
   { name: "Pricing", url: "/pricing", icon: DollarSign },
   { name: "About", url: "/about", icon: Info },
   { name: "Contact", url: "/contact", icon: Mail },
-  { name: "Login", url: "/login", icon: LogIn },
 ];
 
 interface FloatingNavBarProps {
