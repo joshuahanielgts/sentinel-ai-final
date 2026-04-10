@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
 interface TextProps {
   children: React.ReactNode
   reverse?: boolean
-  transition?: DynamicAnimationOptions
+  transition?: AnimationOptions
   splitBy?: "words" | "characters" | "lines" | string
   staggerDuration?: number
   staggerFrom?: "first" | "last" | "center" | "random" | number
@@ -67,10 +67,6 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
     const [isAnimating, setIsAnimating] = useState(false)
 
     const splitIntoCharacters = (text: string): string[] => {
-      if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
-        const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" })
-        return Array.from(segmenter.segment(text), ({ segment }) => segment)
-      }
       return Array.from(text)
     }
 
