@@ -5,12 +5,13 @@ import { ThemeToggle } from '@/components/app/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { useWorkspaces } from '@/hooks/useWorkspaces';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { CommandPalette } from '@/components/app/CommandPalette';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { InteractiveMenu, type InteractiveMenuItem } from '@/components/ui/modern-mobile-menu';
 
 const navItems = [
   { label: 'Dashboard', path: 'dashboard', icon: LayoutDashboard },
@@ -124,6 +125,20 @@ export function AppLayout() {
     if (path) navigate(path);
   };
 
+  const appNavItems = useMemo(() => {
+    const base = `/w/${workspaceId}`;
+    return navItems.map((item) => ({
+      label: item.label,
+      icon: item.icon,
+      onClick: () => navigate(`${base}/${item.path}`),
+    })) as InteractiveMenuItem[];
+  }, [workspaceId, navigate]);
+
+  const appActiveIndex = useMemo(() => {
+    const idx = navItems.findIndex((item) => location.pathname.includes(`/${item.path}`));
+    return idx >= 0 ? idx : 0;
+  }, [location.pathname]);
+
   return (
     <div className="flex min-h-screen bg-background scanlines">
       <CommandPalette />
@@ -143,7 +158,7 @@ export function AppLayout() {
         </aside>
       )}
 
-      {/* Mobile Sheet */}
+      {/* Mobile Sheet (still accessible via header hamburger for workspace switcher etc.) */}
       {isMobile && (
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetContent side="left" className="w-64 p-0 bg-card/95 backdrop-blur border-r border-border flex flex-col">
@@ -173,8 +188,21 @@ export function AppLayout() {
             <span className="font-mono text-sm font-bold text-foreground tracking-wider">SENTINEL AI</span>
           </header>
         )}
-        <PageTransition><Outlet /></PageTransition>
+        <div className={isMobile ? 'pb-20' : ''}>
+          <PageTransition><Outlet /></PageTransition>
+        </div>
       </main>
+
+      {/* Mobile bottom nav */}
+      {isMobile && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 px-2 pb-2">
+          <InteractiveMenu
+            items={appNavItems}
+            activeIndex={appActiveIndex}
+            accentColor="hsl(var(--primary))"
+          />
+        </div>
+      )}
     </div>
   );
 }
