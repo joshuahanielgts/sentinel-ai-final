@@ -50,8 +50,11 @@ function AnimatedRoutes() {
       <Suspense fallback={<PageLoader />} key={location.pathname}>
         <Routes location={location}>
           {/* Public marketing routes */}
+          {/* Intro splash */}
+          <Route path="/" element={<IntroPage />} />
+
           <Route element={<MarketingLayout />}>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={<LandingPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
